@@ -1,0 +1,32 @@
+{
+  "name": "Hipchat GAE Sample Integration",
+  "description": "A basic Hipchat integration built on Google App Engine using Flask.",
+  "key": "{{ project_id }}",
+  "links": {
+      "homepage": "https://{{ project_id }}.appspot.com",
+      "self": "https://{{ project_id }}.appspot.com/capabilities"
+  },
+  "capabilities": {
+    "installable": {
+        "allowGlobal": false,
+        "allowRoom": true,
+        "callbackUrl": "https://{{ project_id }}.appspot.com/installed",
+        "uninstalledUrl": "https://{{ project_id }}.appspot.com/uninstalled"
+      },
+      "hipchatApiConsumer": {
+          "fromName": "Hipchat GAE Sample Integration",
+          "scopes": [
+              "send_notification",
+              "view_messages"
+          ]
+      },
+      "webhook": [
+        {
+          "url": "https://{{ project_id }}.appspot.com/echo",
+          "pattern": "^/[eE][cC][hH][oO]",
+          "event": "room_message",
+          "name": "echo"
+        }
+      ]
+  }
+}
