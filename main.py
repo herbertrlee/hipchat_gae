@@ -17,8 +17,6 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 
 requests_toolbelt.adapters.appengine.monkeypatch()
-
-
 ECHO_PATTERN = re.compile("^/[eE][cC][hH][oO](.*)")
 
 
@@ -69,6 +67,7 @@ def install_callback():
 
 @app.route('/uninstalled', methods=['GET'])
 def uninstall_callback():
+    """Hipchat will hit this endpoint when the integration has been uninstalled by the end user."""
     redirect_url = request.args.get('redirect_url')
     installable_url = request.args.get('installable_url')
 
@@ -87,6 +86,9 @@ def uninstall_callback():
 
 @app.route('/echo', methods=['POST'])
 def echo():
+    """Webhook endpoint.  Reads a message that matches the pattern from the capabilities.json, strips the leading /echo,
+    and echoes the rest of the message back to the room.
+    """
     request_dict = json.loads(request.data)
     oauth_id = request_dict['oauth_client_id']
 
